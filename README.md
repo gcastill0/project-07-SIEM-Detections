@@ -1,4 +1,4 @@
-| Correlation | Events | Use Case |
+|:- Correlation | Events | Use Case |
 | --- | --- | --- |
 | Brute Force | 4625 (multiple failed logon attempts), followed by 4624 (successful logon) | Detects possible brute-force or credential-stuffing attacks by correlating multiple failed logons with a subsequent successful logon. |
 | Privilege Escalation | 4720 (new account creation), followed by 4672 (special privileges assigned) | Identifies unauthorized privilege escalation by detecting when new accounts are granted elevated privileges. |
