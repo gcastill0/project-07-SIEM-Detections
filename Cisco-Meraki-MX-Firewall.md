@@ -9,7 +9,10 @@ NOT (dst.ip.address matches ("10.0", "192.", "172."))
 > PowerQuery
 
 ```sql
-dataSource.name = 'Cisco Meraki MX Firewall' dst.port.number in (445, 139) connection_info.protocol_name = "tcp" NOT (dst.ip.address matches ("10.0", "192.", "172."))
+dataSource.name = 'Cisco Meraki MX Firewall' 
+dst.port.number in (445, 139) 
+connection_info.protocol_name = "tcp" 
+NOT (dst.ip.address matches ("10.0", "192.", "172."))
 | group count = count() by src.ip.address, dst.ip.address
 | let country = geo_ip_country(dst.ip.address)
 | sort - count
