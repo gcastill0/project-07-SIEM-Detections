@@ -15,20 +15,20 @@
 ```mermaid
 flowchart LR
  subgraph SB["Detection Criteria"]
-        E["Check Ports<br>445 or 139"]
-        D["Check Protocol<br>TCP"]
-        F["Check if destination IP<br>IS NOT in private ranges"]
+        E["<br>Check Ports<br>445 or 139<br><br>"]
+        D["<br>Check Protocol<br>TCP<br><br>"]
+        F["<br>Check if destination IP<br>IS NOT in private ranges<br><br>"]
   end
   
-    A["Internal Host<br>Private Network"]
-    B["Outbound<br>Firewall Gateway"]
-    C["Destination Host<br>(Internet)"]
+    A["<br>Internal Host<br>Private Network<br><br>"]
+    B["<br>Outbound<br>Firewall Gateway<br><br>"]
+    C["<br>Destination Host<br>(Internet)<br><br>"]
     A --> B
     B --> C
     C --> H
     B --> SB
-    SB --> G["Flag Event<br>Outbound SMB Traffic"]
-    G --> H["Alert: Outbound SMB Detected"]
+    SB --> G["<br>Flag Event<br>Outbound SMB Traffic<br><br>"]
+    G --> H["<br>Alert: Outbound SMB Detected<br><br>"]
     H --> I["<br>Investigate Possible Misconfiguration or Data Exfiltration<br><br>"]
 
     style A font-size:2.4ch;
