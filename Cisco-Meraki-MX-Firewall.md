@@ -1,6 +1,6 @@
 | Use Case | Pattern | Description |
 |----------|---------|-------------|
-| Outbound SMB Traffic Detection | Destination port matches 445 or 139. | Detects attempts to access SMB services over the internet, which may indicate misconfigurations or data exfiltration. **(MITRE: T1047 – Windows Admin Shares)** |
+| Outbound SMB Traffic Detection | Destination port matches 445 or 139. | Detects attempts to access SMB services over the internet, which may indicate misconfigurations or data exfiltration. **(MITRE: T1021.002 – Remote Services: SMB/Windows Admin Shares)** |
 | Suspicious Traffic on TOR Port | Destination port matches 9001, 9030, 9050, or 9051. | Identifies potential TOR usage by flagging traffic to common TOR relay or entry ports. **(MITRE: T1090.003 – Proxy: Multi-hop Proxy)** |
 | Traffic to Suspicious Countries | Derived country by IP matches 'Russia', 'Iran', 'North Korea', or 'China' | Flags outbound connections to high-risk geolocations which may indicate C2 traffic or exfiltration. **(MITRE: T1589 – Gather Victim Identity Information)** |
 | Network Device Password Spraying | Destination port matches 22, 23, 443, 161, or 80 with pattern='deny' where the count by IP is greater than FIVE | Detects repeated failed authentication attempts across multiple network devices, consistent with password spraying. **(MITRE: T1110.003 – Password Spraying)** |
@@ -11,6 +11,8 @@
 ---
 
 ## **Outbound SMB Traffic Detection**
+
+Detects attempts to access SMB services over the internet, which may indicate misconfigurations or data exfiltration. This detection aligns with [MITRE: T1021.002](https://attack.mitre.org/techniques/T1021/002) – Adversaries may use **valid accounts** to interact with a remote network share using Server Message Block (SMB). The adversary may then perform actions as the logged-on user.
 
 ```mermaid
 flowchart LR
