@@ -29,7 +29,7 @@ flowchart LR
     B --> SB
     SB --> G["Flag Event<br>Outbound SMB Traffic"]
     G --> H["Alert: Outbound SMB Detected"]
-    H --> I["Investigate Possible Misconfiguration or Data Exfiltration"]
+    H --> I["<br>Investigate Possible Misconfiguration or Data Exfiltration<br><br>"]
 
     style A font-size:2.4ch;
     style B font-size:2.4ch;
