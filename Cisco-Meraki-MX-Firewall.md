@@ -12,13 +12,16 @@
 
 ```mermaid
 flowchart LR
- subgraph subGraph0["Detection Logic"]
+ subgraph SB["Detection Logic"]
         D["Check Protocol<br>TCP"]
         E["Check Ports<br>445 or 139"]
         F["Check if destination IP<br>IS NOT in private ranges"]
   end
-    A["Internal Host<br>Private Network"] -- "Initiates SMB Connection<br>destination port<br>is 445 or 139" --> B["Outbound<br>Firewall Gateway"]
-    B -- "Traffic Directed to External IP<br>environment = Public" --> C["Destination Host<br>(Internet)"]
+    A["Internal Host<br>Private Network"]:::logicStyle
+    B["Outbound<br>Firewall Gateway"]
+    C["Destination Host<br>(Internet)"]
+    A --> B
+    B --> C
     C --> H
     B --> D
     D --> E
@@ -26,6 +29,18 @@ flowchart LR
     F --> G["Flag Event<br>Outbound SMB Traffic"]
     G --> H["Alert: Outbound SMB Detected"]
     H --> I["Investigate Possible Misconfiguration or Data Exfiltration"]
+
+    style A font-size:2.4ch;
+    style B font-size:2.4ch;
+    style C font-size:2.4ch;
+    style D font-size:2.4ch;
+    style E font-size:2.4ch;
+    style F font-size:2.4ch;
+    style G font-size:2.4ch;
+    style H font-size:2.4ch;
+    style I font-size:2.4ch;
+
+    classDef logicStyle font-size:2.4ch
 ```
 
 ## **Outbound SMB Traffic Detection**
@@ -37,7 +52,8 @@ NOT (dst.ip.address matches ("10.0", "192.", "172."))
 ```
 
 > PowerQuery
-This PowerQuery is ideal for a report
+
+This is ideal for a report.
 
 ```sql
 dataSource.name = 'Cisco Meraki MX Firewall' 
