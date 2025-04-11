@@ -1,3 +1,15 @@
+| Use Case | Pattern | Description |
+|----------|---------|-------------|
+| Outbound SMB Traffic Detection | Destination port matches 445 or 139. | Detects attempts to access SMB services over the internet, which may indicate misconfigurations or data exfiltration. **(MITRE: T1047 – Windows Admin Shares)** |
+| Suspicious Traffic on TOR Port | Destination port matches 9001, 9030, 9050, or 9051. | Identifies potential TOR usage by flagging traffic to common TOR relay or entry ports. **(MITRE: T1090.003 – Proxy: Multi-hop Proxy)** |
+| Traffic to Suspicious Countries | Derived country by IP matches 'Russia', 'Iran', 'North Korea', or 'China' | Flags outbound connections to high-risk geolocations which may indicate C2 traffic or exfiltration. **(MITRE: T1589 – Gather Victim Identity Information)** |
+| Network Device Password Spraying | Destination port matches 22, 23, 443, 161, or 80 with pattern='deny' where the count by IP is greater than FIVE | Detects repeated failed authentication attempts across multiple network devices, consistent with password spraying. **(MITRE: T1110.003 – Password Spraying)** |
+| High Volume Traffic from a Single IP  | Destination port matches 22, 23, 443, 161, or 80 and the count by IP is excessively high over a period of ONE minute | Identifies excessive traffic volume from a single host, possibly indicating scanning, malware, or exfiltration. **(MITRE: T1030 – Data Transfer Size Limits)** |
+| Detect Outbound LDAP Traffic              | Destination port matches 389, or 636. | Detects LDAP and LDAPS traffic leaving the internal network, which is typically abnormal and may indicate data leakage. **(MITRE: T1136.003 – Create Account: Cloud Account)** |
+| Anomalous Connection Pattern: Single Source to Multiple Users | count(distinct dst.ip.address) > 50 BY src.ip.address AND timespan < 5m | Flags scanning or worm-like propagation from a single internal source to multiple internal hosts. **(MITRE: T1021 – Remote Services)** |
+
+---
+
 ## **Outbound SMB Traffic Detection**
 ```sql
 dataSource.name = 'Cisco Meraki MX Firewall' 
