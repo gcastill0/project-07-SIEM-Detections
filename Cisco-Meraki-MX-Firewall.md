@@ -15,8 +15,8 @@
 ```mermaid
 flowchart LR
  subgraph SB["Detection Criteria"]
-        D["Check Protocol<br>TCP"]
         E["Check Ports<br>445 or 139"]
+        D["Check Protocol<br>TCP"]
         F["Check if destination IP<br>IS NOT in private ranges"]
   end
   
