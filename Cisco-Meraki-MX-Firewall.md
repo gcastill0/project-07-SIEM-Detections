@@ -37,7 +37,7 @@ flowchart LR
     style E font-size:2.4ch;
     style F font-size:2.4ch;
     style G font-size:2.4ch;
-    style H color:#222,fill:lightpink,font-size:2.4ch;
+    style H font-size:2.4ch, stroke:#FF9A9A, stroke-width:4px, color:#222222, fill:lightpink;
     style I font-size:2.4ch;
 ```
 
