@@ -7,6 +7,7 @@ NOT (dst.ip.address matches ("10.0", "192.", "172."))
 ```
 
 > PowerQuery
+This PowerQuery is ideal for a report
 
 ```sql
 dataSource.name = 'Cisco Meraki MX Firewall' 
@@ -17,6 +18,22 @@ NOT (dst.ip.address matches ("10.0", "192.", "172."))
 | let country = geo_ip_country(dst.ip.address)
 | sort - count
 ```
+
+This PowerQuery is ideal to exclude detail already understood about safe locations. For instance, the following extended search excludes for well understood traffic within Canada, but it also excludes exchanges to the `AWS us-east-1` region in Virginia.
+```sql
+dataSource.name = 'Cisco Meraki MX Firewall' 
+dst.port.number in (445, 139) 
+connection_info.protocol_name = "tcp" 
+NOT (dst.ip.address matches ("10.0", "192.", "172."))
+| group count = count() by src.ip.address, dst.ip.address
+| let country = geo_ip_country(dst.ip.address)
+| let state = geo_ip_state(dst.ip.address)
+| let city = geo_ip_city(dst.ip.address)
+| filter NOT (country in ('Canada'))
+| filter NOT (state in ('Virginia'))
+| sort - count
+```
+
 Detects SMB traffic leaving the network perimeter (often a sign of misconfiguration or worm activity).
 
 ---
