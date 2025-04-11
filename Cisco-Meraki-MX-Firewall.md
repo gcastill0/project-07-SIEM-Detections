@@ -10,6 +10,8 @@
 
 ---
 
+## **Outbound SMB Traffic Detection**
+
 ```mermaid
 flowchart LR
  subgraph SB["Detection Logic"]
@@ -40,10 +42,10 @@ flowchart LR
     style H font-size:2.4ch;
     style I font-size:2.4ch;
 
-    classDef logicStyle font-size:2.4ch
+    classDef logicStyle font-size:2.4ch;
 ```
 
-## **Outbound SMB Traffic Detection**
+Detection logic using standard search with filtering.
 ```sql
 dataSource.name = 'Cisco Meraki MX Firewall' 
 dst.port.number in (445, 139) 
