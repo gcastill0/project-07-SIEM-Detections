@@ -19,16 +19,14 @@ flowchart LR
         E["Check Ports<br>445 or 139"]
         F["Check if destination IP<br>IS NOT in private ranges"]
   end
-    A["Internal Host<br>Private Network"]:::logicStyle
+    A["Internal Host<br>Private Network"]
     B["Outbound<br>Firewall Gateway"]
     C["Destination Host<br>(Internet)"]
     A --> B
     B --> C
     C --> H
-    B --> D
-    D --> E
-    E --> F
-    F --> G["Flag Event<br>Outbound SMB Traffic"]
+    B --> SB
+    SB --> G["Flag Event<br>Outbound SMB Traffic"]
     G --> H["Alert: Outbound SMB Detected"]
     H --> I["Investigate Possible Misconfiguration or Data Exfiltration"]
 
@@ -39,10 +37,8 @@ flowchart LR
     style E font-size:2.4ch;
     style F font-size:2.4ch;
     style G font-size:2.4ch;
-    style H font-size:2.4ch;
+    style H fill:lightpink,font-size:2.4ch;
     style I font-size:2.4ch;
-
-    classDef logicStyle font-size:2.4ch;
 ```
 
 Detection logic using standard search with filtering.
