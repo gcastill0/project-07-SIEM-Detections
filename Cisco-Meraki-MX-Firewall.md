@@ -10,6 +10,24 @@
 
 ---
 
+```mermaid
+flowchart LR
+ subgraph subGraph0["Detection Logic"]
+        D["Check Protocol<br>TCP"]
+        E["Check Ports<br>445 or 139"]
+        F["Check if destination IP<br>IS NOT in private ranges"]
+  end
+    A["Internal Host<br>Private Network"] -- "Initiates SMB Connection<br>destination port<br>is 445 or 139" --> B["Outbound<br>Firewall Gateway"]
+    B -- "Traffic Directed to External IP<br>environment = Public" --> C["Destination Host<br>(Internet)"]
+    C --> H
+    B --> D
+    D --> E
+    E --> F
+    F --> G["Flag Event<br>Outbound SMB Traffic"]
+    G --> H["Alert: Outbound SMB Detected"]
+    H --> I["Investigate Possible Misconfiguration or Data Exfiltration"]
+```
+
 ## **Outbound SMB Traffic Detection**
 ```sql
 dataSource.name = 'Cisco Meraki MX Firewall' 
