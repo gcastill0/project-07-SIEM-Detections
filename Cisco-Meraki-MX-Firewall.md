@@ -103,7 +103,7 @@ flowchart LR
     B --> C
     C --> H
     B --> SB
-    SB --> G["<br>Flag Event<br>Outbound SMB Traffic<br><br>"]
+    SB --> G["<br>Flag Event<br>Outbound TOR Traffic<br><br>"]
     G --> H["<br>Alert: Suspicious Traffic on TOR Port<br><br>"]
     H --> I["<br>Investigate the last proxy traffic traversed<br><br>"]
 
