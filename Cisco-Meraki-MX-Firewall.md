@@ -117,6 +117,26 @@ flowchart LR
     style I font-size:2.4ch;
 ```
 
+TCP orts **9001, 9030, 9050, and 9051** — are all commonly associated with the Tor (The Onion Router) network, which is designed for anonymous communication. Here's a breakdown:
+
+
+| Port | Protocol | Typical Use | Associated With |
+|----------|--------------|------------------|----------------------|
+| 9001 | TCP          | Tor OR (Onion Router) port | Used by Tor relays (nodes) to exchange traffic within the Tor network. |
+| 9030 | TCP          | Tor Directory Server | Used by Tor relays to publish and retrieve relay metadata (descriptors, status). |
+| 9050 | TCP          | Tor SOCKS Proxy | Used by Tor clients to connect through a local SOCKS5 proxy (e.g., `localhost:9050`). |
+| 9051 | TCP          | Tor Control Port | Interface for controlling the Tor process (used by tools like Vidalia, Nyx, or custom apps). |
+
+
+Traffic on these ports **may indicate**:
+- A host running a **Tor relay or bridge**.
+- A **user anonymizing outbound traffic** using the Tor network.
+- Possible **circumvention** of security policies (exfiltration, dark web access).
+- In some threat models: **C2 communication** or **malware evasion**.
+
+<br>
+Detection logic using standard search with filtering.
+
 ```sql
 dataSource.name = 'Cisco Meraki MX Firewall' 
 dst.port.number in (9001, 9030, 9050, 9051)
