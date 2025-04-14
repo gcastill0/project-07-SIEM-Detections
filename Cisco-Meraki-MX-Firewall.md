@@ -117,7 +117,7 @@ flowchart LR
     style I font-size:2.4ch;
 ```
 
-TCP orts **9001, 9030, 9050, and 9051** — are all commonly associated with the Tor (The Onion Router) network, which is designed for anonymous communication. Here's a breakdown:
+TCP ports **9001, 9030, 9050, and 9051** — are all commonly associated with the Tor (The Onion Router) network, which is designed for anonymous communication. Here's a breakdown:
 
 
 | Port | Protocol | Typical Use | Associated With |
