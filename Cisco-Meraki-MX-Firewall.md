@@ -122,7 +122,7 @@ TCP ports **9001, 9030, 9050, and 9051** — are all commonly associated with th
 
 | Port | Protocol | Typical Use | Associated With |
 |----------|--------------|------------------|----------------------|
-| 9001 | TCP          | Tor OR (Onion Router) port | Used by Tor relays (nodes) to exchange traffic within the Tor network. |
+| 9001 | TCP          | Tor OR Onion Router | Used by Tor relays (nodes) to exchange traffic within the Tor network. |
 | 9030 | TCP          | Tor Directory Server | Used by Tor relays to publish and retrieve relay metadata (descriptors, status). |
 | 9050 | TCP          | Tor SOCKS Proxy | Used by Tor clients to connect through a local SOCKS5 proxy (e.g., `localhost:9050`). |
 | 9051 | TCP          | Tor Control Port | Interface for controlling the Tor process (used by tools like Vidalia, Nyx, or custom apps). |
