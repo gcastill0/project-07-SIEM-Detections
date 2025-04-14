@@ -1,6 +1,6 @@
 | Use Case | Pattern | Description |
 |----------|---------|-------------|
-| Outbound SMB Traffic Detection | Destination port matches 445 or 139. | Detects attempts to access SMB services over the internet, which may indicate misconfigurations or data exfiltration. **(MITRE: T1021.002 – Remote Services: SMB/Windows Admin Shares)** |
+| Outbound SMB Traffic Detection | Destination port matches 445 or 139. | Detects attempts to access SMB services over the internet, which may indicate misconfigurations or data exfiltration. (**MITRE: T1021.002** – Remote Services: SMB/Windows Admin Shares) |
 | Suspicious Traffic on TOR Port | Destination port matches 9001, 9030, 9050, or 9051. | Identifies potential TOR usage by flagging traffic to common TOR relay or entry ports. **(MITRE: T1090.003 – Proxy: Multi-hop Proxy)** |
 | Traffic to Suspicious Countries | Derived country by IP matches 'Russia', 'Iran', 'North Korea', or 'China' | Flags outbound connections to high-risk geolocations which may indicate C2 traffic or exfiltration. **(MITRE: T1589 – Gather Victim Identity Information)** |
 | Network Device Password Spraying | Destination port matches 22, 23, 443, 161, or 80 with pattern='deny' where the count by IP is greater than FIVE | Detects repeated failed authentication attempts across multiple network devices, consistent with password spraying. **(MITRE: T1110.003 – Password Spraying)** |
@@ -86,6 +86,38 @@ Detects SMB traffic leaving the network perimeter (often a sign of misconfigurat
 ---
 
 ## **Suspicious Traffic on TOR Port**
+
+Identifies potential TOR usage by flagging traffic to common TOR relay or entry ports. [MITRE: T1090.003](https://attack.mitre.org/techniques/T1090/003) – Proxy: Multi-hop Proxy. Adversaries may chain together multiple proxies to disguise the source of malicious traffic. Typically, a defender will be able to identify the last proxy traffic traversed before it enters their network; the defender may or may not be able to identify any previous proxies before the last-hop proxy.
+
+```mermaid
+flowchart LR
+ subgraph SB["Detection Criteria"]
+        E["<br>Check Ports<br>9001, 9030, 9050, OR 9051<br><br>"]
+        D["<br>Check Protocol<br>TCP OR UDP<br><br>"]
+  end
+  
+    A["<br>Internal Host<br>Private Network<br><br>"]
+    B["<br>Outbound<br>Firewall Gateway<br><br>"]
+    C["<br>Destination Host<br>(Internet)<br><br>"]
+    A --> B
+    B --> C
+    C --> H
+    B --> SB
+    SB --> G["<br>Flag Event<br>Outbound SMB Traffic<br><br>"]
+    G --> H["<br>Alert: Outbound SMB Detected<br><br>"]
+    H --> I["<br>Investigate Possible Misconfiguration or Data Exfiltration<br><br>"]
+
+    style A font-size:2.4ch;
+    style B font-size:2.4ch;
+    style C font-size:2.4ch;
+    style D font-size:2.4ch;
+    style E font-size:2.4ch;
+    style F font-size:2.4ch;
+    style G font-size:2.4ch;
+    style H font-size:2.4ch, stroke:#FF9A9A, stroke-width:4px, color:#222222, fill:lightpink;
+    style I font-size:2.4ch;
+```
+
 ```sql
 dataSource.name = 'Cisco Meraki MX Firewall' 
 dst.port.number in (9001, 9030, 9050, 9051)
