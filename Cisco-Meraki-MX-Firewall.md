@@ -104,8 +104,8 @@ flowchart LR
     C --> H
     B --> SB
     SB --> G["<br>Flag Event<br>Outbound SMB Traffic<br><br>"]
-    G --> H["<br>Alert: Outbound SMB Detected<br><br>"]
-    H --> I["<br>Investigate Possible Misconfiguration or Data Exfiltration<br><br>"]
+    G --> H["<br>Alert: Suspicious Traffic on TOR Port<br><br>"]
+    H --> I["<br>Investigate the last proxy traffic traversed<br><br>"]
 
     style A font-size:2.4ch;
     style B font-size:2.4ch;
