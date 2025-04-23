@@ -57,7 +57,7 @@ traffic.bytes_out = *
 
 ---
 ### Anomalous Traffic Signaling
-Detect excessive port access attempts from one source. Align with MITRE ATT&CK: T1046 – Network Service Scanning
+Detect excessive port access attempts from one source. Align with MITRE ATT&CK: T1046 – Network Service Scanning.
 
 
 ```sql
@@ -73,4 +73,14 @@ traffic.bytes_in = *
 | filter isempty(actor.authorizations\[0\].policy.name)
 | group count = count() by src_endpoint.ip, dst_endpoint.ip, dst_endpoint.port, timestamp = timebucket('10m')
 | sort - count
+```
+
+### Lateral Movement (Internal to Internal)
+Detect communication between internal IPs over unusual ports or volume. Aligns with MITRE ATT&CK: T1021 – Remote Services.
+
+```sql
+dataSource.vendor='Fortinet' dataSource.name='FortiGate' serverHost != 'scalyr-metalog' event.type = * 
+| filter dst_endpoint.location.country = 'Reserved' src_endpoint.location.country = 'Reserved'
+| filter NOT (dst_endpoint.port contains ('53', '443', '80')) NOT (src_endpoint.port contains ('53', '443', '80'))
+| group count = count() by dst_endpoint.location.country, src_endpoint.location.country, dst_endpoint.port, src_endpoint.port, timestamp = timebucket('1m')
 ```
