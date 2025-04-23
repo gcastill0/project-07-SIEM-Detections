@@ -55,3 +55,22 @@ traffic.bytes_out = *
 | sort - dst_endpoint.port
 ```
 
+---
+### Anomalous Traffic Signaling
+Detect excessive port access attempts from one source. Align with MITRE ATT&CK: T1046 – Network Service Scanning
+
+
+```sql
+dataSource.vendor='Fortinet' 
+dataSource.name='FortiGate' 
+serverHost != 'scalyr-metalog' 
+event.type='traffic' 
+unmapped.dstintfrole contains:anycase ('wan', 'dmz') 
+traffic.bytes_in = *
+| let bytes_out = number(traffic.bytes_in), event_duration = number(duration)
+| filter NOT (src_endpoint.ip matches ("10.0", "10.254", "192.", "172.")) 
+| filter NOT (dst_endpoint.port contains ('53'))
+| filter isempty(actor.authorizations\[0\].policy.name)
+| group count = count() by src_endpoint.ip, dst_endpoint.ip, dst_endpoint.port, timestamp = timebucket('10m')
+| sort - count
+```
