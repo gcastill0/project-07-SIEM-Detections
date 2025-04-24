@@ -1,3 +1,14 @@
+# Fortinet Detection Use Cases
+
+| Use Case | Pattern  | Description |
+| -------- | -------- | ----------- |
+| Network Device Password Spraying   | Detects VPN login failures with alert or warning levels indicating possible brute-force attempts.          | Identify brute-force logins on VPN, SSH, or web portals. Aligns with MITRE ATT&CK: T1110.003 – Password Spraying. |
+| Anomalous Traffic Signaling        | Flags small SNMP packets sent from WAN or DMZ zones that persist for over a minute.                        | Detect SNMP-based small-packet beaconing from internal systems. Could indicate exfiltration. Aligns with T1046, T1041. |
+| Port Scanning Detection            | Monitors non-private IPs scanning multiple ports in the WAN or DMZ zone without an associated policy.      | Identify scanning behavior from external IPs to multiple ports. Aligns with MITRE ATT&CK: T1046 – Network Service Scanning. |
+| Lateral Movement (Internal to Internal) | Detects internal-to-internal traffic using uncommon ports not typically associated with web or DNS traffic. | Detect internal lateral movement using non-standard ports. Aligns with MITRE ATT&CK: T1021 – Remote Services. |
+
+---
+
 ### Network Device Password Spraying
 Identify brute-force logins on network (VPN, SSH, Web). It maps to MITRE ATT&CK: T1110.003 – Brute Force: Password Spraying.
 
