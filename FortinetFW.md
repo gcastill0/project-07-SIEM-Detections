@@ -56,7 +56,7 @@ traffic.bytes_out = *
 ```
 
 ---
-### Anomalous Traffic Signaling
+### Port Scanning Detection
 Detect excessive port access attempts from one source. Align with MITRE ATT&CK: T1046 – Network Service Scanning.
 
 
