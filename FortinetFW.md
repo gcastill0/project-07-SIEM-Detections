@@ -1,5 +1,3 @@
-# Fortinet Detection Use Cases
-
 | Use Case | Pattern  | Description |
 | -------- | -------- | ----------- |
 | Network Device Password Spraying   | Detects VPN login failures with alert or warning levels indicating possible brute-force attempts.          | Identify brute-force logins on VPN, SSH, or web portals. Aligns with MITRE ATT&CK: T1110.003 – Password Spraying. |
@@ -9,7 +7,7 @@
 
 ---
 
-### Network Device Password Spraying
+## **Network Device Password Spraying**
 Identify brute-force logins on network (VPN, SSH, Web). It maps to MITRE ATT&CK: T1110.003 – Brute Force: Password Spraying.
 
 ```sql
@@ -32,7 +30,7 @@ unmapped.level contains:anycase ('alert', 'warning') event.type='vpn'
 
 ---
 
-### Anomalous Traffic Signaling
+## **Anomalous Traffic Signaling**
 
 Identify regular small packets often used in beaconing (e.g., C2 channels). Port 161 (UDP) – SNMP (Simple Network Management Protocol) is used for device management, polling routers/switches/printers/etc.
 
@@ -67,7 +65,7 @@ traffic.bytes_out = *
 ```
 
 ---
-### Port Scanning Detection
+## **Port Scanning Detection**
 Detect excessive port access attempts from one source. Align with MITRE ATT&CK: T1046 – Network Service Scanning.
 
 
@@ -86,7 +84,7 @@ traffic.bytes_in = *
 | sort - count
 ```
 
-### Lateral Movement (Internal to Internal)
+## **Lateral Movement (Internal to Internal)**
 Detect communication between internal IPs over unusual ports or volume. Aligns with MITRE ATT&CK: T1021 – Remote Services.
 
 ```sql
