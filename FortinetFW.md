@@ -88,7 +88,23 @@ traffic.bytes_in = *
 Detect communication between internal IPs over unusual ports or volume. Aligns with MITRE ATT&CK: T1021 – Remote Services.
 
 ```sql
-dataSource.vendor='Fortinet' dataSource.name='FortiGate' serverHost != 'scalyr-metalog' event.type = * 
+dataSource.vendor='Fortinet' 
+dataSource.name='FortiGate' 
+serverHost != 'scalyr-metalog' 
+event.type = * 
+dst_endpoint.location.country = 'Reserved' 
+src_endpoint.location.country = 'Reserved'
+NOT (dst_endpoint.port contains ('53', '443', '80')) 
+NOT (src_endpoint.port contains ('53', '443', '80'))
+```
+
+> PowerQuery
+
+```sql
+dataSource.vendor='Fortinet' 
+dataSource.name='FortiGate' 
+serverHost != 'scalyr-metalog' 
+event.type = * 
 | filter dst_endpoint.location.country = 'Reserved' src_endpoint.location.country = 'Reserved'
 | filter NOT (dst_endpoint.port contains ('53', '443', '80')) NOT (src_endpoint.port contains ('53', '443', '80'))
 | group count = count() by dst_endpoint.location.country, src_endpoint.location.country, dst_endpoint.port, src_endpoint.port, timestamp = timebucket('1m')
