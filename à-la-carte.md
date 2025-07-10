@@ -53,6 +53,10 @@ This method uses **Windows built-in auditing** to log when processes are created
    Security Settings → Advanced Audit Policy Configuration → System Audit Policies → Detailed Tracking
    ```
 
+   ```
+   Computer Configuration → Administrative Templates → Windows Components → Windows PowerShell → Turn on PowerShell Script Block Logging = Enabled
+   ```
+
 5. Enable:
 
    * **Audit Process Creation**
