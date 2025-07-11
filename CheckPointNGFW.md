@@ -17,18 +17,66 @@
 | Excessive connection rate triggering DoS suspicion         | Count connection attempts per source IP in a time window and flag rates above normal levels         | Alert when the number of connections suggests a potential denial-of-service attack. MITRE Technique: T1499: Endpoint Denial of Service                            |
 
 
+## Unauthorized execution of disallowed apps
+
+Detect execution events where application name is listed in a disallowed apps list.
+
+### Basic Filter
 
 ```sql
 dataSource.name='Check Point Next Generation Firewall' 
-rule_name='Implied Rule ' service_id='echo-request' 
-icmp_type=8 evidences\[0\].dst_endpoint.ip in('8.8.8.8', '8.8.4.4' )
+event.type = 'Application Control ' 
+cp_app_risk = 'High'
+app_properties = * conn_direction='Outgoing '
+| filter cs6 contains:anycase ('<UnapprovedApp1>','<UnapprovedApp2>','<UnapprovedApp3>') 
 ```
+
+---
+
+## Sudden spike in usage of high-risk applications
+
+Count executions of high-risk applications per time window and flag when it exceeds a threshold.
+
+### Basic Filter
 
 ```sql
-dataSource.name = 'FortiGate' unmapped.action = 'ssl-login-fail' unmapped.user = * 
-| filter unmapped.action == 'ssl-login-fail'
-| let country = geo_ip_country(unmapped.remip)
-| group IPs = estimate_distinct(unmapped.remip) by country
-| sort - IPs
+dataSource.name='Check Point Next Generation Firewall' 
+event.type = 'Application Control ' 
+cp_app_risk contains:anycase ( 'medium', 'high' ) 
 ```
 
+### PowerQuery
+```sql
+dataSource.name='Check Point Next Generation Firewall'
+event.type = 'Application Control '
+cp_app_risk contains:anycase ( 'medium', 'high' ) 
+| group 
+  src_ip = array_agg_distinct(src), 
+  dst_ip = array_agg_distinct(dst), 
+  connections = count() 
+  by AppName = cs6, timestamp = timebucket('10m'),  conn_direction  
+```
+
+## Application version downgrade or tampering events
+
+```sql
+dataSource.name='Check Point Next Generation Firewall' 
+event.type = 'Application Control '
+flexString1Label = 'Application Signature ID ' 
+| parse ".*flexString1=$flexString1{regex=[0-9:]+}$\\s+.*" from message_extension
+| group
+  src_ip = array_agg_distinct(src), 
+  dst_ip = array_agg_distinct(dst), 
+  NoDistinctSignatures = estimate_distinct(flexString1), 
+  DistinctSignatures = array_agg_distinct(flexString1),
+  EventCount = count()
+  by AppName = cs6, timestamp = timebucket()
+| filter NoDistinctSignatures > 1
+```
+
+## DNS Requests
+```sql
+dataSource.name='Check Point Next Generation Firewall' 
+rule_name='Implied Rule ' service_id='echo-request' 
+icmp_type=8 evidences\[0\].dst_endpoint.ip in( '8.8.8.8', '8.8.4.4' )
+```
