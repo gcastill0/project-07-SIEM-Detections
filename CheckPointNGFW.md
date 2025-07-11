@@ -59,6 +59,8 @@ cp_app_risk contains:anycase ( 'medium', 'high' )
 
 ## Application version downgrade or tampering events
 
+When an attacker or misconfigured process modifies an application’s installed version or binary unexpectedly, it can indicate malicious activity—such as disabling security controls, introducing back‐doors, or rolling back to a vulnerable release. Detecting these events helps identify attempts to weaken endpoint defenses or persist on a host.
+
 ```sql
 dataSource.name='Check Point Next Generation Firewall' 
 event.type = 'Application Control '
