@@ -178,13 +178,43 @@ Detects communications with high-risk geolocations.
 ---
 
 ## **Network Device Password Spraying**
+
+Password spraying is a technique used by attackers to try a limited number of commonly used passwords across many devices or accounts, avoiding account lockouts. It typically targets network devices like routers, switches, firewalls, and VPNs. Under the MITRE ATT&CK Technique framework, password spraying is cataloged under the Brute Force family, with ID T1110, as sub-technique T1110.003.
+
+```mermaid
+---
+config:
+  layout: dagre
+  theme: redux
+---
+flowchart TB
+ subgraph Analysis["Analysis"]
+        A1["Identify failed logins<br>by actor or source<br>against our target"]
+        B2["Group events<br>in a time window,<br>e.g., 15, 30, 60 minutes"]
+  end
+    C3["Evaluate count<br>versus rule threshold<br>per actor or source"] --> E4["Send notification"] 
+    C3 -- Above threshold --> F5["Create incident"]
+    A1 --> B2
+    Analysis --> C3
+     A1:::node
+     B2:::node
+     C3:::node
+     E4:::node
+     F5:::node
+     Analysis:::group
+    classDef node fill:#eef2ff,stroke:#4f46e5,color:#222,stroke-width:2px,rx:12px,width:192px,text-anchor:middle,alignment-baseline:middle,x:-96px
+    classDef group fill-opacity:0.5,stroke-width:2px,rx:15px,width:536px,text-anchor:middle,alignment-baseline:middle
+```
+
+Detection logic using standard search with filtering.
+
 ```sql
 dataSource.name = 'Cisco Meraki MX Firewall' 
 event.type = 'firewall' 
 dst.port.number in (22, 23, 443, 161, 80) 
 event.network.connectionStatus = 'deny all'
 ```
-Detects attempts to brute-force or spray credentials across network gear (via SSH, Telnet, SNMP, etc.).
+
 
 ---
 
