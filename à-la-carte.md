@@ -37,9 +37,9 @@ This method uses **Windows built-in auditing** to log when processes are created
 
 1. Open **Local Group Policy Editor** (`gpedit.msc`)
 
-2. Navigate to:
-
    * Include **command line in process creation events** 
+
+   Navigate to:
 
    ```
    Computer Configuration → Administrative Templates → System → Audit Process Creation
@@ -51,18 +51,12 @@ This method uses **Windows built-in auditing** to log when processes are created
    Computer Configuration → Administrative Templates → Windows Components → Windows PowerShell → Turn on PowerShell Script Block Logging 
    ```
 
+2. Open **Local Security Policy** (`secpol.msc`):
 
-
-3. Open **Local Security Policy** (`secpol.msc`):
-
+   * Enable **Audit Process Creation**
    ```
    Security Settings → Advanced Audit Policy Configuration → System Audit Policies → Detailed Tracking
    ```
-
-
-4. Enable:
-
-   * **Audit Process Creation**
 
 ## Monitoring via Sudo Logs from Linux
 
