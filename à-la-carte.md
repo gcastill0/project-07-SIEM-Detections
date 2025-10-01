@@ -39,25 +39,28 @@ This method uses **Windows built-in auditing** to log when processes are created
 
 2. Navigate to:
 
+   * Include **command line in process creation events** 
+
    ```
    Computer Configuration → Administrative Templates → System → Audit Process Creation
    ```
 
-3. Enable:
+   * and, enable **PowerShell Script Block Logging** 
 
-   * **Include command line in process creation events**
+   ```
+   Computer Configuration → Administrative Templates → Windows Components → Windows PowerShell → Turn on PowerShell Script Block Logging 
+   ```
 
-4. Open **Local Security Policy** (`secpol.msc`):
+
+
+3. Open **Local Security Policy** (`secpol.msc`):
 
    ```
    Security Settings → Advanced Audit Policy Configuration → System Audit Policies → Detailed Tracking
    ```
 
-   ```
-   Computer Configuration → Administrative Templates → Windows Components → Windows PowerShell → Turn on PowerShell Script Block Logging = Enabled
-   ```
 
-5. Enable:
+4. Enable:
 
    * **Audit Process Creation**
 

@@ -59,7 +59,7 @@ cp_app_risk contains:anycase ( 'medium', 'high' )
 
 ## Application version downgrade or tampering events
 
-When an attacker or misconfigured process modifies an application’s installed version or binary unexpectedly, it can indicate malicious activity—such as disabling security controls, introducing back‐doors, or rolling back to a vulnerable release. Detecting these events helps identify attempts to weaken endpoint defenses or persist on a host.
+When an attacker or misconfigured process modifies an application’s installed version or binary unexpectedly, it can indicate malicious activity such as disabling security controls, introducing back‐doors, or rolling back to a vulnerable release. Detecting these events helps identify attempts to weaken endpoint defenses or persist on a host.
 
 ```sql
 dataSource.name='Check Point Next Generation Firewall' 
@@ -76,9 +76,48 @@ flexString1Label = 'Application Signature ID '
 | filter NoDistinctSignatures > 1
 ```
 
+```sql
+dataSource.name='Check Point Next Generation Firewall'
+evidences\[0\].dst_endpoint.ip = *
+| parse ".*src=$src_endpoint.ip{regex=\\d+\.\\d+\.\\d+\.\\d+}$"
+| parse "$dst_endpoint.ip{regex=\\d+\.\\d+\.\\d+\.\\d+}$" from evidences\[0\].dst_endpoint.ip
+| filter NOT ( dst_endpoint.ip matches ("10.", "192.", "172.") )
+| let src_endpoint.country = geo_ip_country( src_endpoint.ip )
+| let dst_endpoint.country = geo_ip_country( dst_endpoint.ip )
+| group count = count() by dst_endpoint.country, src_endpoint.country, dst_endpoint.ip, src_endpoint.ip, conn_direction, event_type, timestamp = timebucket()
+```
+
+```sql
+dataSource.name='Check Point Next Generation Firewall'
+evidences\[0\].dst_endpoint.ip = *
+| parse ".*src=$src_endpoint.ip{regex=\\d+\.\\d+\.\\d+\.\\d+}$"
+| parse "$dst_endpoint.ip{regex=\\d+\.\\d+\.\\d+\.\\d+}$" from evidences\[0\].dst_endpoint.ip
+| filter NOT ( dst_endpoint.ip matches ("10.", "192.", "172.") )
+| let src_endpoint.country = geo_ip_country( src_endpoint.ip )
+| let dst_endpoint.country = geo_ip_country( dst_endpoint.ip )
+| group count = count() by src_endpoint.country, src_endpoint.ip, dst_endpoint.country, dst_endpoint.ip, conn_direction, event_type, timestamp = timebucket()
+```
+
+```sql
+dataSource.name='Check Point Next Generation Firewall'
+evidences\[0\].dst_endpoint.ip = *
+| parse ".*src=$src_endpoint.ip{regex=\\d+\.\\d+\.\\d+\.\\d+}$"
+| parse "$dst_endpoint.ip{regex=\\d+\.\\d+\.\\d+\.\\d+}$" from evidences\[0\].dst_endpoint.ip
+| filter NOT ( dst_endpoint.ip matches ("10.", "192.", "172.") )
+| let src_endpoint.country = geo_ip_country( src_endpoint.ip )
+| let dst_endpoint.country = geo_ip_country( dst_endpoint.ip )
+| group src_endpoint.countries = array_agg_distinct(src_endpoint.country), dst_endpoint.countries=array_agg_distinct(dst_endpoint.country), src_endpoint.ips = array_agg_distinct(src_endpoint.ip), dst_endpoint.ips = array_agg_distinct(dst_endpoint.ip), count = count() by conn_direction, event_type, timestamp = timebucket("10m")
+| sort timestamp
+```
+
 ## DNS Requests
 ```sql
 dataSource.name='Check Point Next Generation Firewall' 
 rule_name='Implied Rule ' service_id='echo-request' 
 icmp_type=8 evidences\[0\].dst_endpoint.ip in( '8.8.8.8', '8.8.4.4' )
 ```
+
+dataSource.name='Check Point Next Generation Firewall' 
+event.type = 'Application Control ' 
+cp_app_risk contains:anycase ( 'medium', 'high' ) 
+conn_direction contains:anycase 'in' act='Accept '
