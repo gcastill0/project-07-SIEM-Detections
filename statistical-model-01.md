@@ -41,6 +41,16 @@ TRAFFIC_VOLUME = (
 
 ---
 
+## Interpretation
+
+| Condition | Meaning |
+|---------|---------|
+| Z(u) ≈ 0 | Normal behavior |
+| Z(u) ≈ 2 | Moderately unusual |
+| Z(u) ≥ 3 | Statistically significant anomaly |
+
+---
+
 ## Mathematical Model Overview
 
 This detection models **relative outbound traffic dominance** per user and applies statistical anomaly detection to identify abnormal behavior.
@@ -116,10 +126,3 @@ $$
 
 ---
 
-## Interpretation
-
-| Condition | Meaning |
-|---------|---------|
-| Z(u) ≈ 0 | Normal behavior |
-| Z(u) ≈ 2 | Moderately unusual |
-| Z(u) ≥ 3 | Statistically significant anomaly |
