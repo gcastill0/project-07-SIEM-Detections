@@ -39,8 +39,6 @@ This method uses **Windows built-in auditing** to log when processes are created
 
    * Include **command line in process creation events** 
 
-   Navigate to:
-
    ```
    Computer Configuration → Administrative Templates → System → Audit Process Creation
    ```
@@ -54,6 +52,7 @@ This method uses **Windows built-in auditing** to log when processes are created
 2. Open **Local Security Policy** (`secpol.msc`):
 
    * Enable **Audit Process Creation**
+   
    ```
    Security Settings → Advanced Audit Policy Configuration → System Audit Policies → Detailed Tracking
    ```
