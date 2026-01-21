@@ -1,6 +1,8 @@
 ## Introduction
 
-This search identifies users whose outbound network activity is statistically disproportionate compared to the rest of the environment. It models each user’s share of total outbound traffic over time, establishes a behavioral baseline using mean and standard deviation, and then applies a Z-score to highlight users whose traffic contribution deviates significantly from their normal pattern—an approach well suited for detecting anomalous data exfiltration, misuse, or compromised accounts.
+This search identifies users whose outbound network activity is statistically disproportionate compared to the rest of the environment. It models each user’s share of total outbound traffic over time, establishes a behavioral baseline using mean and standard deviation, and then applies a Z-score to highlight users whose traffic contribution deviates significantly from their normal pattern. 
+
+This approach well suited for detecting anomalous data transfers, misuse, or compromised accounts.
 
 ```sql
 | join 
