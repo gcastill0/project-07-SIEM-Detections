@@ -17,10 +17,8 @@ To build a list of **“interesting” tracking references**, the search first n
 It does this by querying **Microsoft Azure Front Door Web Application Firewall logs** and applying the following logic:
 
 - **Scope to the correct data source**: Only events from Microsoft’s Front Door WAF are considered, ensuring the tracking reference reflects a single WAF inspection context.
-<br>
 
 - **Reduce noise from default rules**: Two common default rule families—Local File Inclusion and protocol enforcement—are explicitly excluded. These rules often trigger benign or low-value alerts and would otherwise overwhelm the results.
-<br>
 
 - **Select a high-risk condition**:  The filter is constrained to events where the WAF message is **“Inbound Anomaly Score Exceeded
 
