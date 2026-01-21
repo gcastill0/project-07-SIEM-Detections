@@ -12,7 +12,9 @@ USER_VOLUME = (
     '10.2'
   )) 
   | let traffic.bytes_out = number(src.process.image.size)
-  | group user_volume_per_tp = sum(traffic.bytes_out), total_average_per_tp = average(traffic.bytes_out) by src.process.parent.user, timestamp = timebucket('1h') 
+  | group user_volume_per_tp = sum(traffic.bytes_out), 
+    total_average_per_tp = average(traffic.bytes_out) by src.process.parent.user, 
+    timestamp = timebucket('1h') 
   | filter NOT (isempty(src.process.parent.user))
 ),
 TRAFFIC_VOLUME = (
@@ -23,10 +25,16 @@ TRAFFIC_VOLUME = (
     '10.2'
   )) 
   | let traffic.bytes_out = number(src.process.image.size)
-  | group total_volume_per_tp = sum(traffic.bytes_out), average_volume_per_tp = avg(traffic.bytes_out) by timestamp = timebucket('1h')
+  | group total_volume_per_tp = sum(traffic.bytes_out), 
+    average_volume_per_tp = avg(traffic.bytes_out) by timestamp = timebucket('1h')
 ) on timestamp
 | let RATIO = user_volume_per_tp / total_volume_per_tp
-| group U = sum(user_volume_per_tp), N = sum(total_volume_per_tp), MU = avg(RATIO), SIGMA = stddev(RATIO) by src.process.parent.user, timestamp = timebucket()
+| group 
+    U = sum(user_volume_per_tp), 
+    N = sum(total_volume_per_tp), 
+    MU = avg(RATIO), 
+    SIGMA = stddev(RATIO) 
+    by src.process.parent.user, timestamp = timebucket()
 | let R = U / N
 | let Z_SCORE = abs(( R - MU ) / SIGMA)
 ```
