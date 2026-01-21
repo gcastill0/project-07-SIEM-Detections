@@ -1,4 +1,4 @@
-# Anomaly Detections with Blocked Client Activity
+# Correlate Blocked Client Activity
 
 This search analyzes Microsoft Azure Front Door Web Application Firewall (WAF) logs to identify client activity associated with elevated risk.
 
